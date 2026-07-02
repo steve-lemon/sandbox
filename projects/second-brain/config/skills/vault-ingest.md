@@ -1,0 +1,66 @@
+---
+name: vault-ingest
+description: >
+  사용자의 knowledge vault($VAULT_DIR, 기본 ~/knowledge)에 새로 들어온
+  Clippings를 Hermess의 현재 LLM(GPT 또는 Claude)이 직접 wiki로 컴파일한다.
+  Clippings/ 폴더에 새 파일이 생겼을 때, 또는 예약된 주기로 실행한다.
+---
+
+# Vault Ingest (Hermess-native)
+
+이 스킬은 Hermess의 현재 모델이 GPT이든 Claude이든 같은 방식으로 동작하도록
+작성된 provider-agnostic vault 작업 지시서다. 별도 coding agent에 위임하지 않고,
+가능하면 Hermess가 제공하는 파일 읽기/쓰기 도구로 직접 처리한다.
+
+## 언제 사용하는가
+
+- `Clippings/` 폴더에 새 파일이 감지되었을 때 (webhook)
+- 예약된 주기 실행 시 (cron — 권장: 6시간 간격)
+- 사용자가 "볼트 업데이트해줘" / "클리핑 처리해줘"라고 명시적으로 요청할 때
+
+## 절차
+
+`VAULT_DIR` 기본값은 `~/knowledge`다. 실제 vault가 다른 위치라면 해당 경로를
+`VAULT_DIR`로 간주한다.
+
+1. 작업 시작 전 `$VAULT_DIR/wiki/VAULT_MEMORY.md`와
+   `$VAULT_DIR/wiki/INDEX.md`를 읽는다.
+2. `$VAULT_DIR/Clippings/`에 처리 대기 파일이 있는지 확인한다.
+   비어 있으면 아무 파일도 수정하지 않고 "처리할 클리핑 없음"으로 종료한다.
+3. 각 클리핑 파일을 읽고 핵심 주장, 도구, 모델, 방법론, 워크플로우를 추출한다.
+4. 기존 `wiki/` 문서와 중복되는 개념은 새 파일을 만들지 말고 기존 문서를 갱신한다.
+5. 새 개념은 `wiki/<slug>.md`로 만든다. 파일명은 영어 소문자 kebab-case를 사용한다.
+6. 모든 wiki 문서는 지정된 frontmatter를 포함한다.
+7. 관련 문서에는 `[[wikilink]]`를 추가한다.
+8. `wiki/topics/`, `wiki/INDEX.md`, `wiki/VAULT_MEMORY.md`를 갱신한다.
+9. 처리 완료된 클리핑은 원문을 보존한 채 `raw/`로 이동한다. 이미 같은 이름이 있으면
+   덮어쓰지 말고 `-1`, `-2` 같은 suffix를 붙인다.
+10. 마지막 응답에는 다음만 간단히 보고한다.
+
+- 처리한 클리핑 파일
+- 생성한 wiki 문서
+- 업데이트한 wiki 문서
+- 새 stub 문서
+- 갱신한 topic/index/memory 파일
+
+## Wiki frontmatter
+
+```yaml
+---
+type: concept
+topics:
+  - knowledge-management
+status: draft
+sources:
+  - "[[source-or-related-note]]"
+---
+```
+
+## 금지 사항
+
+- `git push`, `git reset --hard`, `git clean`, `rm -rf` 실행 금지
+- `raw/` 파일 내용 수정 금지
+- 근거 없는 일반 지식으로 wiki를 부풀리지 않는다
+- 원문에 없는 최신 정보가 필요하면 `status: needs-update` 또는 TODO로 표시한다
+- 동시에 두 번 이상 이 스킬을 병렬 실행하지 않는다 (같은 `_workspace/`를 두 세션이
+  동시에 쓰면 충돌한다)
