@@ -25,20 +25,27 @@ description: >
 
 1. 작업 시작 전 `$VAULT_DIR/wiki/VAULT_MEMORY.md`와
    `$VAULT_DIR/wiki/INDEX.md`를 읽는다.
-2. `$VAULT_DIR/Clippings/`에 처리 대기 파일이 있는지 확인한다.
+2. `$VAULT_DIR/templates/`에서 사용 가능한 템플릿을 확인한다. 새 wiki 문서를 만들 때는
+   가능한 경우 아래 템플릿을 우선 사용한다.
+   - `concept` → `templates/wiki-concept.md`
+   - `tool` → `templates/wiki-tool.md`
+   - `model` → `templates/wiki-model.md`
+   - `framework` → `templates/wiki-framework.md`
+   - `topic` → `templates/topic-page.md`
+3. `$VAULT_DIR/Clippings/`에 처리 대기 파일이 있는지 확인한다.
    비어 있으면 아무 파일도 수정하지 않고 "처리할 클리핑 없음"으로 종료한다.
-3. 각 클리핑 파일을 읽고 핵심 주장, 도구, 모델, 방법론, 워크플로우를 추출한다.
-4. 기존 `wiki/` 문서와 중복되는 개념은 새 파일을 만들지 말고 기존 문서를 갱신한다.
-5. 새 개념은 `wiki/<slug>.md`로 만든다. 파일명은 영어 소문자 kebab-case를 사용한다.
-6. 모든 wiki 문서는 지정된 frontmatter를 포함한다.
-7. 관련 wiki 문서에는 `[[wikilink]]`를 추가한다. Obsidian alias는
+4. 각 클리핑 파일을 읽고 핵심 주장, 도구, 모델, 방법론, 워크플로우를 추출한다.
+5. 기존 `wiki/` 문서와 중복되는 개념은 새 파일을 만들지 말고 기존 문서를 갱신한다.
+6. 새 개념은 `wiki/<slug>.md`로 만든다. 파일명은 영어 소문자 kebab-case를 사용한다.
+7. 모든 wiki 문서는 해당 템플릿 또는 지정된 frontmatter를 포함한다.
+8. 관련 wiki 문서에는 `[[wikilink]]`를 추가한다. Obsidian alias는
    `[[note-slug|Alias]]` 형식을 사용하고 pipe 문자 앞에 backslash를 넣지 않는다.
-8. `wiki/topics/`, `wiki/INDEX.md`, `wiki/VAULT_MEMORY.md`를 갱신한다.
-9. 처리 완료된 클리핑은 원문을 보존한 채 `raw/`로 이동한다. 이미 같은 이름이 있으면
+9. `wiki/topics/`, `wiki/INDEX.md`, `wiki/VAULT_MEMORY.md`를 갱신한다.
+10. 처리 완료된 클리핑은 원문을 보존한 채 `raw/`로 이동한다. 이미 같은 이름이 있으면
    덮어쓰지 말고 `-1`, `-2` 같은 suffix를 붙인다.
    wiki 문서의 `sources`에는 원문을 `[[...]]` wikilink로 넣지 말고
    `"raw/<source-file-name>.md"` 경로 문자열로 기록한다.
-10. 마지막 응답에는 다음만 간단히 보고한다.
+11. 마지막 응답에는 다음만 간단히 보고한다.
 
 - 처리한 클리핑 파일
 - 생성한 wiki 문서
@@ -66,6 +73,7 @@ wikilink로 만들지 않는다.
 
 - `git push`, `git reset --hard`, `git clean`, `rm -rf` 실행 금지
 - `raw/` 파일 내용 수정 금지
+- 템플릿이 있는데 임의 구조로 새 문서를 만들지 않는다
 - 근거 없는 일반 지식으로 wiki를 부풀리지 않는다
 - 원문에 없는 최신 정보가 필요하면 `status: needs-update` 또는 TODO로 표시한다
 - 동시에 두 번 이상 이 스킬을 병렬 실행하지 않는다 (같은 `_workspace/`를 두 세션이

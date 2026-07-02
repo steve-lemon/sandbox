@@ -11,6 +11,7 @@ Before any vault operation, read:
 1. `wiki/VAULT_MEMORY.md`
 2. `wiki/INDEX.md`
 3. The relevant Hermess skill in `projects/second-brain/config/skills/`
+4. Any matching template in `templates/`
 
 If a task is project-specific, also read the matching `projects/<name>/README.md`.
 
@@ -27,6 +28,7 @@ When Obsidian is running, use `/obsidian-cli` skill commands for vault operation
 | `wiki/` | Concept articles, one concept per file |
 | `wiki/topics/` | Topic index pages |
 | `outputs/` | Query answers, analysis reports, lint results |
+| `templates/` | Obsidian and LLM output templates |
 | `projects/` | Project execution context and project-scoped outputs |
 | `docs/` | System specs, setup notes, and configuration docs |
 
@@ -35,6 +37,7 @@ When Obsidian is running, use `/obsidian-cli` skill commands for vault operation
 - Do not edit file contents in `raw/`.
 - Preserve source provenance.
 - Prefer updating existing wiki notes over creating duplicate notes.
+- Use matching files in `templates/` before inventing a new note or output structure.
 - Use English kebab-case filenames for wiki notes.
 - Use `[[wikilinks]]` for related wiki concepts.
 - Do not use wikilinks for raw source files unless a corresponding wiki source note exists.
@@ -94,6 +97,27 @@ up: "[[topics/parent-topic]]"   # omit for root topics
 Body: one-line list of related wiki articles with [[wikilinks]].  
 10+ linked articles → consider splitting into sub-topics.  
 Full topic list → `wiki/TOPIC_MAP.md`.
+
+## Templates
+
+Use these templates when present:
+
+| Output | Template |
+| --- | --- |
+| wiki concept | `templates/wiki-concept.md` |
+| wiki tool | `templates/wiki-tool.md` |
+| wiki model | `templates/wiki-model.md` |
+| wiki framework | `templates/wiki-framework.md` |
+| topic page | `templates/topic-page.md` |
+| query answer | `templates/query-output.md` |
+| lint report | `templates/lint-report.md` |
+| project README | `templates/project-readme.md` |
+| daily note, optional | `templates/daily-note.md` |
+| contact note, optional | `templates/contact.md` |
+
+Templates are shared contracts for Obsidian users and LLM agents. If a template exists,
+preserve its frontmatter fields and section headings unless the user explicitly asks for a
+different structure.
 
 ---
 

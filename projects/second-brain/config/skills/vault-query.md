@@ -29,12 +29,13 @@ description: >
 1. 사용자의 질문을 임의로 축약하지 말고 원문 그대로 작업 범위로 유지한다.
 2. `$VAULT_DIR/wiki/VAULT_MEMORY.md`와
    `$VAULT_DIR/wiki/INDEX.md`를 먼저 읽는다.
-3. 질문과 관련된 `wiki/` 문서, `wiki/topics/` 페이지, 필요 시 최근 `outputs/`를 읽는다.
-4. 답변은 vault 안의 근거를 우선한다. vault에 없는 내용은 추론임을 명시한다.
-5. `$VAULT_DIR/outputs/`가 없으면 먼저 생성한다.
-6. 답변 문서를 `$VAULT_DIR/outputs/YYYY-MM-DD-query-slug.md`에 저장한다.
-7. 저장된 파일을 다시 확인한다.
-8. 최종 응답에는 핵심 답변과 저장된 output 파일 경로를 함께 알려준다.
+3. `$VAULT_DIR/templates/query-output.md`가 있으면 읽고 출력 문서 구조로 사용한다.
+4. 질문과 관련된 `wiki/` 문서, `wiki/topics/` 페이지, 필요 시 최근 `outputs/`를 읽는다.
+5. 답변은 vault 안의 근거를 우선한다. vault에 없는 내용은 추론임을 명시한다.
+6. `$VAULT_DIR/outputs/`가 없으면 먼저 생성한다.
+7. 답변 문서를 `$VAULT_DIR/outputs/YYYY-MM-DD-query-slug.md`에 저장한다.
+8. 저장된 파일을 다시 확인한다.
+9. 최종 응답에는 핵심 답변과 저장된 output 파일 경로를 함께 알려준다.
 
 ## 답변 문서 형식
 
@@ -70,5 +71,6 @@ description: >
 - 답변을 vault 밖(예: 채팅 로그만)에 남기고 `outputs/`에 저장하지 않는 것은
   금지 — 지식이 누적되지 않기 때문이다
 - output markdown 파일을 생성하거나 갱신하기 전에는 작업을 완료하지 않는다
+- `templates/query-output.md`가 있는데 임의 구조로 query output을 만들지 않는다
 - `raw/` 원문을 수정하지 않는다
 - vault에 근거가 없는데 단정적으로 답하지 않는다

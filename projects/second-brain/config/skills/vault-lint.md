@@ -23,9 +23,11 @@ description: >
 
 1. `$VAULT_DIR/wiki/VAULT_MEMORY.md`,
    `$VAULT_DIR/wiki/INDEX.md`, `$VAULT_DIR/wiki/TOPIC_MAP.md`를 읽는다.
-2. `wiki/`의 markdown 문서를 스캔한다. `raw/`는 읽거나 수정하지 않는다.
-3. 다음 항목을 점검한다.
+2. `$VAULT_DIR/templates/lint-report.md`가 있으면 읽고 lint report 출력 구조로 사용한다.
+3. `wiki/`의 markdown 문서를 스캔한다. `raw/`는 읽거나 수정하지 않는다.
+4. 다음 항목을 점검한다.
    - frontmatter 누락 또는 필수 필드 누락
+   - 사용 가능한 템플릿과 크게 어긋나는 wiki/query/lint 문서 구조
    - `status: stub` 문서
    - 고아 문서
    - 깨진 wikilink
@@ -34,10 +36,10 @@ description: >
    - 중복 개념
    - 서로 모순되는 설명
    - 10개 이상 문서를 가진 과밀 topic page
-4. 필요한 경우 빈 stub 문서를 만든다. 단, 추측으로 긴 본문을 작성하지 않는다.
-5. lint 결과를 `outputs/YYYY-MM-DD-vault-lint.md`에 저장한다.
-6. `wiki/VAULT_MEMORY.md`의 Last Lint Pass와 stub/issue 요약을 갱신한다.
-7. 결과 요약(신규 stub 수, 분할 후보 topic, 발견된 모순 수)을 사용자에게 보고한다.
+5. 필요한 경우 빈 stub 문서를 만든다. 단, 추측으로 긴 본문을 작성하지 않는다.
+6. lint 결과를 `outputs/YYYY-MM-DD-vault-lint.md`에 저장한다.
+7. `wiki/VAULT_MEMORY.md`의 Last Lint Pass와 stub/issue 요약을 갱신한다.
+8. 결과 요약(신규 stub 수, 분할 후보 topic, 발견된 모순 수)을 사용자에게 보고한다.
    심각한 모순이 발견되면 즉시 보고하고, 사소한 것(빈 stub 등)은 주간 요약에만
    포함한다.
 
