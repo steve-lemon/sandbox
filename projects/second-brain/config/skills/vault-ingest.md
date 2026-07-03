@@ -1,7 +1,7 @@
 ---
 name: vault-ingest
 description: >
-  사용자의 knowledge vault($VAULT_DIR, 기본 ~/knowledge)에 새로 들어온
+  사용자의 knowledge vault($VAULT_DIR)에 새로 들어온
   Clippings를 Hermes의 현재 LLM(GPT 또는 Claude)이 직접 wiki로 컴파일한다.
   Clippings/ 폴더에 새 파일이 생겼을 때, 또는 예약된 주기로 실행한다.
 ---
@@ -20,8 +20,11 @@ description: >
 
 ## 절차
 
-`VAULT_DIR` 기본값은 `~/knowledge`다. 실제 vault가 다른 위치라면 해당 경로를
-`VAULT_DIR`로 간주한다.
+런타임에서는 `~/knowledge`로 조용히 fallback하지 않는다. 사용자가 `VAULT_DIR`를
+명시하면 그 값을 우선한다. 명시되지 않았지만 현재 작업 루트가 Obsidian vault 구조
+(`VAULT_RULES.md`, `wiki/`, `raw/`, `Clippings/`, `templates/`)를 갖고 있으면 현재
+작업 루트를 `VAULT_DIR`로 추론한다. 확신할 수 없으면 파일을 수정하기 전에 사용자에게
+vault 경로를 확인한다.
 
 1. 작업 시작 전 `$VAULT_DIR/wiki/VAULT_MEMORY.md`와
    `$VAULT_DIR/wiki/INDEX.md`를 읽는다.

@@ -15,6 +15,18 @@ Before any vault operation, read:
 
 If a task is project-specific, also read the matching `projects/<name>/README.md`.
 
+## Vault Root Resolution
+
+At runtime, never silently fallback to `~/knowledge`. That path is only a setup example.
+Use the user-provided `VAULT_DIR` when present. Otherwise, treat the current working
+directory as the vault root only when it contains the expected vault structure such as
+`VAULT_RULES.md`, `wiki/`, `raw/`, `Clippings/`, and `templates/`. If the vault root is
+unclear, ask before reading or writing files.
+
+When delegating ingest work to another agent such as Claude CLI, resolve `VAULT_DIR` to an
+absolute path first and pass that path explicitly in both the working directory and the
+delegated prompt. The delegated agent must only read or write under that resolved path.
+
 ## Obsidian CLI
 
 When Obsidian is running, use `/obsidian-cli` skill commands for vault operations (search, link analysis, frontmatter edits). Prefer `obsidian search:context query="..."` over grep for note content, and `obsidian backlinks file=<name>` to check incoming links. For bulk operations across many files, direct file tools (Read/Edit/Write) remain appropriate.

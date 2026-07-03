@@ -20,11 +20,11 @@ description: >
 
 ## 절차
 
-`VAULT_DIR` 기본값은 `~/knowledge`다. 실제 vault가 다른 위치라면 해당 경로를
-`VAULT_DIR`로 간주한다. 사용자가 `VAULT_DIR`를 명시하면 그 값을 우선한다.
-명시되지 않았지만 현재 작업 루트가 Obsidian vault 구조(`wiki/`, `raw/`,
-`outputs/`)를 갖고 있으면 현재 작업 루트를 `VAULT_DIR`로 추론한다. 확신할 수
-없으면 답변을 생성하기 전에 사용자에게 vault 경로를 확인한다.
+런타임에서는 `~/knowledge`로 조용히 fallback하지 않는다. 사용자가 `VAULT_DIR`를
+명시하면 그 값을 우선한다. 명시되지 않았지만 현재 작업 루트가 Obsidian vault 구조
+(`VAULT_RULES.md`, `wiki/`, `raw/`, `outputs/`, `templates/`)를 갖고 있으면 현재
+작업 루트를 `VAULT_DIR`로 추론한다. 확신할 수 없으면 답변을 생성하기 전에 사용자에게
+vault 경로를 확인한다.
 
 1. 사용자의 질문을 임의로 축약하지 말고 원문 그대로 작업 범위로 유지한다.
 2. `$VAULT_DIR/wiki/VAULT_MEMORY.md`와
