@@ -5,10 +5,14 @@ This index is the entry point for vault queries and ingest deduplication.
 ## Topics
 
 - [[wiki/topics/knowledge-management|Knowledge Management]]
+- [[wiki/topics/ai-agent-tooling|AI Agent Tooling]]
 
 ## Articles
 
-_No compiled wiki articles yet._
+- [[wiki/multi-agent-orchestration|Multi-Agent Orchestration]]
+- [[wiki/hermes|Hermes]]
+- [[wiki/openai-codex|OpenAI Codex]]
+- [[wiki/claude-code|Claude Code]]
 
 ## Maintenance
 

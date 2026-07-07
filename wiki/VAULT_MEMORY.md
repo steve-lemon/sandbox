@@ -26,4 +26,5 @@ Loaded at the start of every vault operation. Keep this file under 200 lines.
 
 - Created: 2026-07-08
 - Last Lint Pass: never
-- Known initial issue: the vault starts with one pending clipping and no compiled wiki articles yet.
+- 2026-07-08 ingest: processed the pending clipping ("드디어 나에게 딱 맞았던 AI 에이전트 설정 Hermes + OpenAI Codex + Claude Code.md") into 4 wiki articles (`multi-agent-orchestration`, `hermes`, `openai-codex`, `claude-code`) plus a new `ai-agent-tooling` topic page. Original moved to `raw/`.
+- Open needs-update items: Claude Code / Agent SDK subscription-vs-API billing split (source cites a 2026-06-15 change; unverified against current Anthropic docs) and an unverified single-anecdote claim about harness-signature detection causing surprise API billing.
