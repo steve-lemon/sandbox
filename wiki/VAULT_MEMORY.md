@@ -25,5 +25,6 @@ Loaded at the start of every vault operation. Keep this file under 200 lines.
 ## Current State
 
 - Created: 2026-07-08
+- Last Ingest: 2026-07-08 — processed 1 clipping (Hermes + OpenAI Codex + Claude Code multi-agent setup) into 5 wiki articles under the new `ai-agents` topic.
 - Last Lint Pass: never
-- Known initial issue: the vault starts with one pending clipping and no compiled wiki articles yet.
+- Known open issue: `wiki/claude-code-programmatic-billing-split.md` is time-sensitive (Anthropic billing policy dated 2026-06-15) and marked `needs-update` — verify against a current source before relying on it.
