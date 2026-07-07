@@ -1,7 +1,5 @@
 # Claude Instructions
 
-This repository is a markdown knowledge vault sandbox. It is the initial environment for a future production knowledge folder.
-
 Before vault work, read:
 
 1. `VAULT_RULES.md`
