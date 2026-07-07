@@ -42,6 +42,8 @@ When Obsidian is running, use `/obsidian-cli` skill commands for vault operation
 | `outputs/` | Query answers, analysis reports, lint results |
 | `templates/` | Obsidian and LLM output templates |
 | `projects/` | Project execution context and project-scoped outputs |
+| `areas/` | Ongoing responsibility areas: `daily/` notes and `ideas/` notes |
+| `archive/` | Completed projects, superseded config, expired material. Append-only |
 | `docs/` | System specs, setup notes, and configuration docs |
 
 ## Core Rules
@@ -59,6 +61,48 @@ When Obsidian is running, use `/obsidian-cli` skill commands for vault operation
 - If `outputs/` does not exist when saving a retained answer, create it.
 - Keep project execution context in `projects/`; move reusable concepts to `wiki/`.
 - Mark unsupported claims as inference or `needs-update`.
+- Do not edit file contents in `archive/` (same contract as `raw/`).
+- Keep `wiki/VAULT_MEMORY.md` under 200 lines; it is loaded every session.
+- One daily note per day at `areas/daily/YYYY-MM-DD.md`; ideas that recur get promoted to `areas/ideas/<slug>.md`.
+- Project truth lives in `projects/<name>/README.md` frontmatter (`status`, `goal`, `due`, `milestones`, `next_action`).
+
+## Work Layer Frontmatter
+
+Daily note (`areas/daily/YYYY-MM-DD.md`):
+
+```yaml
+date: 2026-07-06
+type: daily
+projects-touched: []   # ["[[projects/<name>/README|<name>]]"]
+mood:                  # optional
+energy:                # optional
+tags: [journal]
+```
+
+Idea note (`areas/ideas/<slug>.md`):
+
+```yaml
+type: idea
+status: seed | growing | ready | adopted | dropped
+first-seen: 2026-07-06
+related: []            # ["[[wiki/<concept>]]"]
+```
+
+Project (`projects/<name>/README.md`):
+
+```yaml
+type: project
+status: active | paused | done
+goal: "one sentence"
+due: 2026-08-31        # optional
+milestones:
+  - name: "milestone"
+    due: 2026-07-15
+    done: false
+next_action: "one concrete next step"
+```
+
+`status: done` → move the project folder to `archive/projects/` and update `projects/README.md`.
 
 ## Wiki Frontmatter
 
@@ -125,6 +169,7 @@ Use these templates when present:
 | lint report | `templates/lint-report.md` |
 | project README | `templates/project-readme.md` |
 | daily note, optional | `templates/daily-note.md` |
+| idea note | `templates/idea.md` |
 | contact note, optional | `templates/contact.md` |
 
 Templates are shared contracts for Obsidian users and LLM agents. If a template exists,
@@ -135,9 +180,15 @@ different structure.
 
 ## Workflows
 
+Ingest runs as one daily batch, not per-clipping. Daily brief/close are Hermes-native; only knowledge compilation is delegated to Claude.
+
 Use the Hermes skills as the source of truth:
 
 - `vault-ingest`: process `Clippings/` into `raw/`, `wiki/`, topics, index, and memory with the current Hermes model.
 - `vault-ingest-claude`: delegate only ingest to Claude CLI/Claude Code while Hermes handles trigger, lock, verification, and reporting.
 - `vault-query`: answer from existing wiki knowledge and save retained answers to `outputs/`.
 - `vault-lint`: inspect vault quality and update `wiki/VAULT_MEMORY.md`.
+- `vault-daily-brief`: create today's daily note, carry over yesterday's open loops, propose focus from project deadlines and next actions.
+- `vault-daily-close`: summarize the day's work log, extract open loops, update touched project logs and next actions.
+- `vault-project-review`: weekly scan of all project frontmatter for deadlines, stalls, and archive candidates.
+- `vault-retro`: weekly quality pass — extends `vault-lint` with work-layer checks (stalled projects, neglected ideas, daily gaps, friction points) and proposes skill improvements.

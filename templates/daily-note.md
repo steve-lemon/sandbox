@@ -1,6 +1,7 @@
 ---
 date: "{{date}}"
 type: daily
+projects-touched: []
 mood:
 energy:
 tags:
